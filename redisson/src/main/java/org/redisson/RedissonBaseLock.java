@@ -182,6 +182,7 @@ public abstract class RedissonBaseLock extends RedissonExpirable implements RLoc
 
     @Override
     public void unlock() {
+        log.info("锁被释放了");
         try {
             get(unlockAsync(Thread.currentThread().getId()));
         } catch (RedisException e) {

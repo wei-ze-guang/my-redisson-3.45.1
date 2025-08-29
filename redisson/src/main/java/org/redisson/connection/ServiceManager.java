@@ -295,6 +295,7 @@ public final class ServiceManager {
 
     public Timeout newTimeout(TimerTask task, long delay, TimeUnit unit) {
         try {
+            log.info("这里有一个timer 不知道是什么");
             return timer.newTimeout(task, delay, unit);
         } catch (IllegalStateException e) {
             if (isShuttingDown()) {

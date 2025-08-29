@@ -17,6 +17,7 @@ package org.redisson;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.redisson.api.listener.TrackingListener;
 import org.redisson.client.ChannelName;
@@ -51,6 +52,7 @@ import java.util.stream.StreamSupport;
  * @author Nikita Koksharov
  *
  */
+@Slf4j
 public abstract class RedissonObject implements RObject {
 
     protected CommandAsyncExecutor commandExecutor;

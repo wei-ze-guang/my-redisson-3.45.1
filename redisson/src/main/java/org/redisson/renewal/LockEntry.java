@@ -15,6 +15,8 @@
  */
 package org.redisson.renewal;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
@@ -26,11 +28,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Nikita Koksharov
  *
  */
+@Slf4j
 public class LockEntry {
 
-    final Queue<Long> threadsQueue = new ConcurrentLinkedQueue<>();
-    final Map<Long, Integer> threadId2counter = new ConcurrentHashMap<>();
-    final Map<Long, String> threadId2lockName = new ConcurrentHashMap<>();
+    final Queue<Long> threadsQueue = new ConcurrentLinkedQueue<>();  //记录加锁的线程顺序
+    final Map<Long, Integer> threadId2counter = new ConcurrentHashMap<>();  //每个线程在本地的可重入计数（holdCount）
+    final Map<Long, String> threadId2lockName = new ConcurrentHashMap<>();  //线程对应的锁名（Redis key）
 
     LockEntry() {
         super();
@@ -43,6 +46,7 @@ public class LockEntry {
     public void addThreadId(long threadId, String lockName) {
         threadId2counter.compute(threadId, (t, counter) -> {
             counter = Optional.ofNullable(counter).orElse(0);
+            log.info("可重入锁的计数加1");
             counter++;
             threadsQueue.add(threadId);
             return counter;
@@ -55,11 +59,13 @@ public class LockEntry {
     }
 
     public Long getFirstThreadId() {
+        log.info("获取最先获得这个锁的线程名字={}", threadsQueue.peek());
         return threadsQueue.peek();
     }
 
     public void removeThreadId(long threadId) {
         threadId2counter.computeIfPresent(threadId, (t, counter) -> {
+            log.info("可重入锁的计数减去1");
             counter--;
             if (counter == 0) {
                 threadsQueue.remove(threadId);

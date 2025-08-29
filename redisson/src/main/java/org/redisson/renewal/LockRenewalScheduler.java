@@ -23,9 +23,17 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  *
  * @author Nikita Koksharov
+ * 这里就是自动续命
  *
  */
 public final class LockRenewalScheduler {
+
+    //AtomicReference<V> 是一个持有引用类型对象的原子操作类，它和普通的 V value 不同的是：
+    /**
+     * 对引用对象的读取/写入/比较并替换操作都是原子性的
+     * 内部依赖 CAS（Compare-And-Swap） 实现，无需加锁
+     * 简单理解：就是线程安全的 V value，可以在多线程下安全更新
+     */
 
     private final AtomicReference<LockTask> reference = new AtomicReference<>();
     private final AtomicReference<FastMultilockTask> multilockReference = new AtomicReference<>();

@@ -62,7 +62,13 @@ abstract class RenewalTask implements TimerTask {
         if (!running.get()) {
             return;
         }
-
+        log.info(" 提交续命任务到redisson定时器");
+        /**
+         * newTimeout(...) 的作用：
+         * 把当前对象 this（LockTask 或 RenewalTask 实例）作为任务
+         * 提交到 Redisson 内部的 定时线程池
+         * 延迟 / 周期 = TTL / 3
+         */
         long internalLockLeaseTime = executor.getServiceManager().getCfg().getLockWatchdogTimeout();
         executor.getServiceManager().newTimeout(this, internalLockLeaseTime / 3, TimeUnit.MILLISECONDS);
     }

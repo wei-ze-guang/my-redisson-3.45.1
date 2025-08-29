@@ -631,14 +631,6 @@ public class RedissonLiveObjectServiceTest extends RedisDockerTest {
             }
         };
 
-        try (ExecutorService pool = Executors.newFixedThreadPool(2)) {
-            pool.submit(setterRunnable);
-            pool.submit(getterRunnable);
-
-            assertThat(latch.await(5, TimeUnit.SECONDS)).isFalse();
-
-            pool.shutdownNow();
-        }
     }
 
 

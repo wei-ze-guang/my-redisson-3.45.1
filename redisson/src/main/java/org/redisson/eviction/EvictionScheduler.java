@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 public final class EvictionScheduler {
 
     private final Map<String, EvictionTask> tasks = new ConcurrentHashMap<>();
-    private final CommandAsyncExecutor executor;
+    private final CommandAsyncExecutor executor;  //  直接操作redis
 
     public EvictionScheduler(CommandAsyncExecutor executor) {
         this.executor = executor;

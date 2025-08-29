@@ -44,11 +44,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Nikita Koksharov
  *
  */
+
 public class RedissonLock extends RedissonBaseLock {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedissonLock.class);
 
-    protected long internalLockLeaseTime;
+    protected long internalLockLeaseTime;  //内部锁租用时间
 
     protected final LockPubSub pubSub;
 

@@ -24,9 +24,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.release>8</maven.compiler.release>
-        <maven.compiler.testRelease>21</maven.compiler.testRelease>
-        <maven.compiler.testSource>21</maven.compiler.testSource>
-        <maven.compiler.testTarget>21</maven.compiler.testTarget>
+        <maven.compiler.testRelease>17</maven.compiler.testRelease>
+        <maven.compiler.testSource>17</maven.compiler.testSource>
+        <maven.compiler.testTarget>17</maven.compiler.testTarget>
         <argLine />
     </properties>
 
@@ -68,6 +68,7 @@
         <module>redisson-helidon</module>
         <module>redisson-quarkus</module>
         <module>redisson-micronaut</module>
+        <module>aa-my-redisson3.45.1</module>
     </modules>
 
     <profiles>
@@ -158,24 +159,26 @@
                <version>0.9.15</version>
                <scope>test</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
                 <version>5.11.4</version>
-                <scope>test</scope>
+<!--                <scope>test</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>5.11.4</version>
-                <scope>test</scope>
+<!--                <scope>test</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
                 <version>5.11.4</version>
-                <scope>test</scope>
+<!--                <scope>test</scope>-->
             </dependency>
+
             <dependency> 
                 <groupId>org.junit.platform</groupId> 
                 <artifactId>junit-platform-runner</artifactId> 
@@ -186,7 +189,15 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>1.5.16</version>
-                <scope>test</scope>
+<!--                <scope>test</scope>-->
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.16</version> <!-- 可换成最新版本 -->
+                <!--      <scope>provided</scope>-->
             </dependency>
 
             <dependency>
@@ -199,7 +210,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.1.118.Final</version>
+                <version>4.1.124.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -209,6 +220,14 @@
                 <version>2.18.2</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.16</version> <!-- 可换成最新版本 -->
+                <!--      <scope>provided</scope>-->
             </dependency>
         </dependencies>
     </dependencyManagement>

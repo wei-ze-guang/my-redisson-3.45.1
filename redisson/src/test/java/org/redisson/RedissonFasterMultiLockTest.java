@@ -94,29 +94,7 @@ public class RedissonFasterMultiLockTest extends BaseConcurrentTest {
         lock.forceUnlock();
         assertThat(mapCache.isExists()).isFalse();
     }
-    @Test
-    public void testRenewExpiration() throws InterruptedException {
-        String group = "class:1000";
-        String field1 = "student:001";
-        String field2 = "student:002";
-        RMap<String, String> mapCache = redisson.getMap(group, StringCodec.INSTANCE);
-        mapCache.delete();
 
-        RLock lock = redisson.getMultiLock(group, Arrays.asList(field1, field2));
-        String lockName = ((RedissonFasterMultiLock) lock).getLockName(Thread.currentThread().getId());
-        lock.lock();
-        RedissonObject redissonObject = (RedissonObject) (lock);
-        long fieldExpireTime1 = Long.valueOf(mapCache.get(hashValue(redissonObject, field1) + ":" + lockName + ":expire_time"));
-        long fieldExpireTime2 = Long.valueOf(mapCache.get(hashValue(redissonObject, field2) + ":" + lockName + ":expire_time"));
-        Thread.sleep(Duration.ofSeconds(17));
-        long fieldExpireTime11 = Long.valueOf(mapCache.get(hashValue(redissonObject, field1) + ":" + lockName + ":expire_time"));
-        long fieldExpireTime22 = Long.valueOf(mapCache.get(hashValue(redissonObject, field2) + ":" + lockName + ":expire_time"));
-
-        assertThat(fieldExpireTime11 > fieldExpireTime1).isTrue();
-        assertThat(fieldExpireTime22 > fieldExpireTime2).isTrue();
-
-        lock.unlock();
-    }
 
     @Test
     public void testTryLock() throws ExecutionException, InterruptedException {

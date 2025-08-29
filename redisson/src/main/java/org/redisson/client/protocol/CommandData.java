@@ -32,13 +32,14 @@ import java.util.concurrent.CompletionException;
  * @param <T> input type
  * @param <R> output type
  */
+//  这个类是存储redis  命令的 的实际载体
 public class CommandData<T, R> implements QueueCommand {
 
     final CompletableFuture<R> promise;
-    RedisCommand<T> command;
-    final Object[] params;
-    final Codec codec;
-    final MultiDecoder<Object> messageDecoder;
+    RedisCommand<T> command;  //命令
+    final Object[] params;  //参数
+    final Codec codec;   //序列化和反序列化参数
+    final MultiDecoder<Object> messageDecoder;  //它最终解析 Redis 返回的数据，然后传给 promise.complete()
 
     public CommandData(CompletableFuture<R> promise, Codec codec, RedisCommand<T> command, Object[] params) {
         this(promise, null, codec, command, params);

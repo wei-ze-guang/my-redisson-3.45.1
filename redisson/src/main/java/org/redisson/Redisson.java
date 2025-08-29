@@ -52,13 +52,13 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Redisson implements RedissonClient {
 
-    private final EvictionScheduler evictionScheduler;
-    private final WriteBehindService writeBehindService;
-    private final ConnectionManager connectionManager;
-    private final CommandAsyncExecutor commandExecutor;
-
+    private final EvictionScheduler evictionScheduler;  //管理缓存过期、淘汰策略
+    private final WriteBehindService writeBehindService;  //异步刷写/缓存落地机制
+    private final ConnectionManager connectionManager;  //管理连接
+    private final CommandAsyncExecutor commandExecutor;  // 操作redis
+    //Redisson 的 LiveObject 功能缓存，避免重复生成动态代理或重复扫描类，提高性能
     private final ConcurrentMap<Class<?>, Class<?>> liveObjectClassCache = new ConcurrentHashMap<>();
-    private final Config config;
+    private final Config config;   //全局配置参数
 
     Redisson(Config config) {
         Version.logVersion();

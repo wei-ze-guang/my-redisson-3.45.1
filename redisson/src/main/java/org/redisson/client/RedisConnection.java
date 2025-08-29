@@ -20,6 +20,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.util.AttributeKey;
 import io.netty.util.Timeout;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.RedissonShutdownException;
 import org.redisson.api.RFuture;
 import org.redisson.client.codec.Codec;
@@ -31,7 +32,9 @@ import org.redisson.misc.LogHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Nikita Koksharov
  *
  */
+@Slf4j
 public class RedisConnection implements RedisCommands {
 
     public enum Status {OPEN, CLOSED, CLOSED_IDLE}
@@ -228,6 +232,8 @@ public class RedisConnection implements RedisCommands {
     }
 
     public <T, R> ChannelFuture send(CommandData<T, R> data) {
+        if(!Objects.equals(data.getCommand().getName(),"PING"))
+          log.info("这是netty 发送出去的地方，这里直接直接就是channel，返回ChannelFuture {}", data.getCommand()+ Arrays.toString(data.getParams()));
         return channel.writeAndFlush(data);
     }
 
